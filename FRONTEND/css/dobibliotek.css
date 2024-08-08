@@ -1,0 +1,84 @@
+.ps-scrollbar-y-rail{
+    z-index: 10000;
+}
+
+
+#DragDropDiv{
+    width: 100%;
+    height: 240px;
+    margin-left: 0;
+}
+
+#wrzucaneObrazki{
+    width: 100%;
+    margin-top: 30px; /* -230 50px */
+
+}
+.jFiler-item{
+    width: 32%;
+    margin-right: 5px;
+    min-width: 240px;
+}
+
+.jFiler-jProgressBar{
+    position: absolute;
+    width: 90%;
+    bottom: 28px;
+}
+
+@media all and (max-width: 590px) {
+    .jFiler-item{
+        width: 100%;
+        margin-right: 5px;
+        min-width: 240px;
+    }
+}
+@media all and (min-width: 590px) and (max-width: 900px) {
+    .jFiler-item{
+        width: 45%;
+        margin-right: 25px;
+        min-width: 240px;
+    }
+}
+
+
+.slick-prev:before, .slick-next:before {
+    color:black !important;
+}
+
+
+
+@media only screen and (max-width: 767px) {
+    .ui.tiny.modal {
+        width: 95%;
+        margin: 0em 0em 0em -47.5%;
+    }
+}
+
+@media only screen and (min-width: 768px) {
+    .ui.tiny.modal {
+        width: 50%;
+        margin: 0em 0em 0em -25%;
+    }
+}
+
+@media only screen and (min-width: 992px) {
+    .ui.tiny.modal {
+        width: 400px;
+        margin: 0em 0em 0em -200px;
+    }
+}
+
+@media only screen and (min-width: 1200px) {
+    .ui.tiny.modal {
+        width: 500px;
+        margin: 0em 0em 0em -250px;
+    }
+}
+
+@media only screen and (min-width: 1920px) {
+    .ui.tiny.modal {
+        width: 600px;
+        margin: 0em 0em 0em -300px;
+    }
+}

@@ -1,0 +1,85 @@
+#MAPA{
+    height: 100%;
+    z-index: 1;
+}
+
+#MAPA .leaflet-control-zoom {
+    left: 410px;
+    top: -5px;
+    position: relative;
+}
+
+.leaflet-draw-section{
+    position: absolute;
+    left: 410px;
+    top: -5px;
+}
+
+.easy-button-container {
+    position: absolute;
+    left: 410px;
+    top: 125px;
+
+}
+
+#rysujTooltip{
+    position: absolute;
+    /*background-color: white;*/
+    top: 36px;
+    left: 0px;
+    font-size: 75%;
+    width: 100%;
+    text-align: center;
+    font-weight: 900;
+    color: #ffffff;
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+    /*left: 40px;*/
+    /*height: 35px;*/
+    /*line-height: 35px;*/
+    /*padding-right: 10px;*/
+    /*padding-left: 10px;*/
+    /*border-radius: 5px;*/
+    /*border: 2px solid #bcb8bd;*/
+}
+/*.ui.menu > .disabled.item {*/
+    /*opacity: 0.3 !important;*/
+/*}*/
+
+/*.disabled {*/
+    /*cursor: not-allowed !important;*/
+/*}*/
+
+
+
+
+
+/*.jFiler{*/
+    /*background-color: yellow;*/
+/*}*/
+
+/*#wrzucaneObrazki{*/
+    /*background-color: red;*/
+/*}*/
+
+/*#wrzucaneObrazki .jFiler-item{*/
+    /*background-color: blue;*/
+/*}*/
+
+/*.wyborKryteria{*/
+    /*-webkit-user-select: none;*/
+    /*-moz-user-select: none;*/
+    /*-ms-user-select: none;*/
+    /*user-select: none;*/
+/*}*/
+
+/*.wyborKryteria > input{*/
+    /*position: static;*/
+/*}*/
+
+
+
+
+
+
+
+

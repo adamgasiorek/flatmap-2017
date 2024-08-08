@@ -1,0 +1,60 @@
+<div>
+<p>
+  Wpisz email użytkownika aby go znaleźć:
+</p>
+  <ng2-completer [(ngModel)]="typedText"
+                 [dataService]="dataService"
+                 [minSearchLength]="3"
+                 [textNoResults]="brak"
+                 [textSearching]="loading"
+  placeholder="email"
+  [pause]="250"
+  [fillHighlighted]="false"
+  [autoMatch]="true"
+  (selected)="userSelected($event)"></ng2-completer>
+
+</div>
+
+<div *ngIf="selectedUser">
+  <p>name: {{selectedUser.name}}</p>
+  <p>email: {{selectedUser.email}}</p>
+  <p>activated: {{selectedUser.activated}}</p>
+  <p>points: {{selectedUser.points}}</p>
+  <p>contact:
+    <br>
+    contact name: {{selectedUser.contact.name}}
+  <br>
+  contact email: {{selectedUser.contact.email}}
+  <br>
+  contact phone: {{selectedUser.contact.phoneNumber}}</p>
+
+  <button (click)="addPointsModal.open()">dodaj punkty</button>
+</div>
+
+<modal #addPointsModal
+       [closeOnEscape]="true"
+       [closeOnOutsideClick]="true"
+       modalClass="modal-lg modal-sm">
+  <modal-header>
+    <h1 *ngIf="selectedUser">Dodaj punkty {{selectedUser.email}}</h1>
+  </modal-header>
+  <modal-content>
+    <p>
+      ilość punktów:
+      <input type="number" [(ngModel)]="addPointsCount">
+    </p>
+    <p>
+      powód:
+      <input type="text" [(ngModel)]="reasonAddPoints">
+    </p>
+
+    <div *ngIf="modalError">
+      {{modalError}}
+    </div>
+  </modal-content>
+  <modal-footer>
+    <button class="btn btn-primary" (click)="addPoints(addPointsModal)">dodaj</button>
+    <button class="btn btn-primary" (click)="addPointsModal.close()">zamknij</button>
+  </modal-footer>
+</modal>
+

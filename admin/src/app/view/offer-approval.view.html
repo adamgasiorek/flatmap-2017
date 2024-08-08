@@ -1,0 +1,63 @@
+
+<div *ngIf="!offerList || offerList.length == 0 ">
+  Brak ofert do zatwierdzenia
+</div>
+
+<div *ngIf="offerList && offerList.length > 0 ">
+  Oferty czekające na zaakceptowanie:
+  <ul>
+    <li *ngFor="let item of offerList">
+      <a href="#" (click)="onOfferSelected(item, offerModal)">{{item.title}} <small>{{item.addDate | date }}</small></a>
+    </li>
+  </ul>
+
+</div>
+
+
+
+<modal #offerModal
+       [closeOnEscape]="true"
+       [closeOnOutsideClick]="true"
+       modalClass="modal-lg"
+       (onClose)="onOfferModalClose()">
+  <modal-header>
+    <h1>Oferta do zatwierdzenia przez moderatora</h1>
+  </modal-header>
+  <modal-content>
+    <div *ngIf="selectedOffer">
+      <offer-frontend [offerId]="selectedOffer.id"></offer-frontend>
+    </div>
+  </modal-content>
+  <modal-footer>
+    <div *ngIf="modalError">
+      {{modalError}}
+    </div>
+    <button class="btn btn-primary" (click)="acceptOffer(offerModal)">akceptuj</button>
+    <button class="btn btn-primary" (click)="goToRejectOffer(offerModal, rejectModal)">odrzuć</button>
+    <button class="btn btn-primary" (click)="offerModal.close()">zamknij</button>
+  </modal-footer>
+</modal>
+
+<modal #rejectModal
+       [closeOnEscape]="true"
+       [closeOnOutsideClick]="true"
+       modalClass="modal-lg modal-sm"
+       (onClose)="onRejectOfferModalClose()">
+  <modal-header>
+    <h1>reject</h1>
+  </modal-header>
+  <modal-content>
+    <div *ngIf="selectedOffer">
+      Odrzucenie oferty {{selectedOffer.title}}<br>
+      z powodu:
+      <input type="text" [(ngModel)]="rejectReason">
+    </div>
+    </modal-content>
+  <modal-footer>
+    <div *ngIf="modalError">
+      {{modalError}}
+    </div>
+    <button class="btn btn-primary" (click)="rejectOffer(rejectModal)">odrzuć</button>
+    <button class="btn btn-primary" (click)="rejectModal.close()">zamknij</button>
+  </modal-footer>
+</modal>

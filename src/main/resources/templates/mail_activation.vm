@@ -1,0 +1,19 @@
+<html>
+<body>
+<p>Hej ${body.userName}, </p>
+
+<p> prosimy o potwierdzenie maila poprzez kliknięcie w link:</p>
+
+<p>
+    <b>${body.url}</b><br>
+
+</p>
+
+<p>
+    Pozdrawiamy,<br/>
+    tu bedzie nasza nazwa .com
+</p>
+
+
+</body>
+</html>

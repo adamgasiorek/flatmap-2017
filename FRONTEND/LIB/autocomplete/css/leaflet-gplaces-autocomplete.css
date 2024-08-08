@@ -1,0 +1,28 @@
+
+.leaflet-control-container .leaflet-gac-control:focus {
+    outline: none;
+}
+.leaflet-gac-control {
+    width: 100%;
+    height: 35px;
+    padding: 4px 8px;
+    border-radius: 5px;
+    border: 1px #d0d0d0 solid;
+    z-index: 2000;
+}
+
+
+.pac-container {
+    background-color: #FFF;
+    z-index: 2000;
+    position: fixed;
+    display: inline-block;
+    float: left;
+}
+.modal{
+    z-index: 3000;
+}
+.modal-backdrop{
+    z-index: 3000;
+}​
+

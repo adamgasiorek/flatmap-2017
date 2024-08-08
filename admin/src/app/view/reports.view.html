@@ -1,0 +1,73 @@
+<div *ngIf="error">
+  {{error}}
+</div>
+
+
+<div *ngIf="!reportList || reportList.length == 0 ">
+  Brak nowych zgłoszonych ofert
+</div>
+
+<div *ngIf="reportList && reportList.length > 0 ">
+  Zgłoszenia do rozpatrzenia:
+  <div *ngFor="let item of reportList">
+    <h4>{{item.offer.title}} <small>{{item.reportDate | date}}</small></h4>
+    <a href="#" (click)="onReportSelected(item, reportModal)">powód: {{item.cause}}</a>
+  </div>
+</div>
+
+<modal #reportModal
+       [closeOnEscape]="true"
+       [closeOnOutsideClick]="true"
+       modalClass="modal-lg modal-sm"
+       (onClose)="onReportModalClose()">
+  <modal-header>
+    <h1>rozpatrz zgłoszenie</h1>
+  </modal-header>
+  <modal-content>
+    <div *ngIf="selectedReport">
+
+      <h4>{{selectedReport.offer.title}} <small>{{selectedReport.reportDate | date}}</small></h4>
+      <p>powód: {{selectedReport.cause}}</p>
+
+      <lsu-accordion>
+        <lsu-accordionPanel [title]="'pokaż ofertę'">
+            <offer-frontend [offerId]="selectedReport.offer.id"></offer-frontend>
+        </lsu-accordionPanel>
+      </lsu-accordion>
+
+    </div>
+  </modal-content>
+  <modal-footer>
+    <div *ngIf="modalError">
+      {{modalError}}
+    </div>
+    <button class="btn btn-primary" (click)="ignoreReport(reportModal)">ignoruj</button>
+    <button class="btn btn-primary" (click)="goToBanOffer(reportModal, banOfferModal)">wycofaj ofertę</button>
+    <button class="btn btn-primary" (click)="reportModal.close()">zamknij</button>
+  </modal-footer>
+</modal>
+
+
+<modal #banOfferModal
+       [closeOnEscape]="true"
+       [closeOnOutsideClick]="true"
+       modalClass="modal-lg modal-sm"
+       (onClose)="onBanOfferModalClose()">
+  <modal-header>
+    <h1>wycofaj ofertę</h1>
+  </modal-header>
+  <modal-content>
+
+      Oferta zostaje uznana za niepoprawną ponieważ
+      <input type="text" [(ngModel)]="banReason">
+
+  </modal-content>
+  <modal-footer>
+    <div *ngIf="modalError">
+      {{modalError}}
+    </div>
+    <button class="btn btn-primary" (click)="backToReportModal(banOfferModal,reportModal)">cofnij</button>
+    <button class="btn btn-primary" (click)="banOffer(banOfferModal)">ześlij ofertę na syberię</button>
+    <button class="btn btn-primary" (click)="banOfferModal.close()">anuluj</button>
+  </modal-footer>
+</modal>

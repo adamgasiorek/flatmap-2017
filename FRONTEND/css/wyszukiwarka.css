@@ -1,0 +1,40 @@
+
+#ERORKIFORM ul {
+    columns: 3;
+    -webkit-columns: 3;
+    -moz-columns: 3;
+}
+#wiecejpokazschow{
+    padding-bottom: 120px;
+    margin-top: 10px;
+}
+
+#wiecejpokazschow .fieldmarginBottom{
+    margin-bottom: 25px;
+}
+
+#wyszukiwarka1{
+    height: 260px;
+}
+#wyszukiwarka2{
+    min-height: 200px;
+    height: calc(100% - 260px);
+}
+
+@media only screen and (max-width: 767px) {
+    #wyszukiwarka1{
+        height: 300px;
+    }
+    #wyszukiwarka2{
+        min-height: 200px;
+        height: calc(100% - 300px);
+    }
+
+}
+
+
+#rodzajZasieg{
+    border: #e8e6e0 1px solid;
+    height: 35px;
+    margin: 0 0 0 -5px;
+}

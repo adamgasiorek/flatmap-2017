@@ -1,0 +1,1005 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>API Server</title>
+
+    <script src="FRONTEND/LIB/jquery/jquery-1.12.4.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="FRONTEND/LIB/semantic/semantic.min.css">
+    <script src="FRONTEND/LIB/semantic/semantic.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('.ui.accordion').accordion();
+        });
+    </script>
+</head>
+<body>
+
+<div class="ui huge header" style="font-size: 500%;width: 90%;margin: auto;margin-top: 30px;">
+    <img src="https://memz.co/wp-content/uploads/2016/03/api.png">
+    <div class="content">
+        API
+        <div class="sub header">Witamy w naszym pięknym api :)</div>
+    </div>
+</div>
+
+<div class="ui styled accordion" style="width: 90%;margin: auto;margin-top: 30px;" >
+
+    <div class="title ui large header">
+        <i class="dropdown icon"></i>
+        1. OFERTY
+    </div>
+    <div class="content">
+        <div class="accordion">
+            <div class="title">
+                <i class="dropdown icon"></i>
+                1.1 GET MARKERS: http://localhost:9999/marker/get?params
+            </div>
+            <div class="content">
+                <div class="template" id="GET_MARKERS">
+                    <h4>DESCRIPTION:</h4>
+                    <p class="descMethod">
+                        wyszukanie znaczników znajdujących się w odpowiedniej lokalizacji tj:<br>
+                        szerokość geograficzna - latitude [x1,x2]<br>
+                        długość geograficzna - longitude [y1,y2]<br>
+                        Oraz poddanych odpowiedniemu filtrowaniu<br>
+                    </p>
+
+
+                    <h4>PARAMS:</h4>
+                    <ul>
+                        <li><h4>Wymagane: </h4></li>
+                        <li>argumenty x1, x2, y1, y2 SĄ WYMAGANE, inaczej response:  400 – BAD REQUEST</li>
+                        <li>argumenty w dowolnej kolejności</li>
+                        <li>argumenty to realne współrzędne z zakresu:
+                            <ul>
+                                <li>x1,x2 - szerokość geograficzna - latitude [-90,90] - przedział domknięty
+                                <li>y1,y2 - długość geograficzna - longitude [-180,180] - przedział domknięty
+                            </ul>
+                        </li>
+                        <li>jeżeli podamy argumenty spoza zakresu: response 400 - bad request</li>
+                        <li>jeżeli x1>x2 albo y1 &lt; y2 response code = 400 - bad request -! nie mylić z y1>y2 co JEST dopuszczalne i normalne</li>
+                        <li>przedziały zamknięte czyli jak znacznik o współrzędnych  np. x1,y1 to ZOSTANIE uwzględniony</li>
+
+                        <li><h4>Argumenty filtrowania:</h4>
+                            Wielkość liter w nazwie argumentu bez znaczenia<br>
+                            Niepoprawna nazwa argumentu - 400 Bad Request<br>
+                            Niepoprawna wartość argumentu - 400 - Bad Request<br><br>
+                            <ul>
+                                <li>offerType = (int z zakresu OfferType) - dopuszczalne kilka wartości oddzielonych - np: 1-2 znaczy typ 1 lub typ 2</li>
+                                <li>propertyTypeEnum = (int z zakresu PropertyType) - dopuszczalne kilka wartości oddzielonych - np: 1-2 znaczy typ 1 lub typ 2</li>
+                                <li>price = minimalna-maksymalna-waluta (int z zakresu CurrencyType) np 400-600-0 tzn od 400 do 600 zł albo sama minimalna 400--0 czyli 400 zł</li>
+                                <li>lastAdded - int z zakresu LastAddedType - jedna warosc </li>
+                                <li>buildingType - wieloktornego wyboru - dowlony int ale skuteczne beda tylko z zakresu ENUM_BUILDING_TYPE </li>
+                                <li>personcount = wielokrotnego wyboru np 2-3-4 czyli 2 3 albo 4 osoby  </li>
+                                <li>heatingtype = (int z zakresu HeatingType) - dopuszczalne kilka wartości oddzielonych - np: 1-2 znaczy typ 1 lub typ 2 </li>
+                                 <li>area = zakres - min-max np 40-70 ALBO sama powierzchnia minimalna np 40- ALBO sama maksymalna wtedy -70</li>
+                                <li>roomcount = wielokrotnego wyboru np 2-3-4 czyli 2 3 albo 4 pokoje  </li>
+                                <li>floor = wielokrotnego wyboru np 2-3-4 czyli 2 3 albo 4 pietro </li>
+                                <li>year - zakres min-max np 1995- czyli nowsze niz 1995 albo 1970-1980 czyli zakres</li>
+                                <li>furnished = - true/false </li>
+                                <li>balcony - true/false</li>
+                                <li>lift - true/false</li>
+                                <li>basement - true/false</li>
+                                <li>parking - true/false</li>
+                                <li>pets - true/false</li>
+                                <li>garden - true/false</li>
+                                <li>clima - true/false</li>
+                                <li>smoking - true/false</li>
+                                <li>isFromAgency - true/false</li>
+
+
+                            </ul>
+                        </li>
+
+                    </ul>
+
+                    <h4>RETURN:</h4>
+
+                    <ul>
+                        <li>
+                            200 OK : json lista markerów o polach:
+                            <ul>
+                                <li>id</li>
+                                <li>offerType:
+                                    <ol start="0">
+                                        <li>HIRE</li>
+                                        <li>SELL</li>
+                                        <li>OTHER</li>
+                                    </ol>
+                                </li>
+                                <li>propertyTypeEnum:
+                                    <ol start="0">
+                                        <li>BLOCK</li>
+                                        <li>TENEMENT</li>
+                                        <li>DETACHED_HOUSE</li>
+                                        <li>TERRACED_HOUSE</li>
+                                        <li>LOFT</li>
+                                        <li>OTHER</li>
+                                    </ol>
+                                </li>
+                                <li>latitude</li>
+                                <li>longitude</li>
+                            </ul>
+
+                        </li>
+                        <li>
+                            400 BAD REQUEST: niepoprawne argumenty
+                        </li>
+                    </ul>
+
+                    <h4>EXAMPLE:</h4>
+
+                    <h5>get:</h5>
+                    <p class="request">http://localhost:9999/marker/get?x1=50.0&x2=60&y1=20&y2=21</p>
+                    <p class="request">http://localhost:9999/marker/get?x1=50.1&x2=50.2&y1=20&y2=22&offertype=1&propertytype=1</p>
+                    <p class="request">http://localhost:9999/marker/get?x1=3&y1=100&x2=90&y2=1&offertype=1&propertytype=1-4</p>
+
+
+                    <h5>repsonse:</h5>
+                    <p class = "json">
+                        [{"id":1101,"offerType":0,"propertyTypeEnum":0,"latitude":50.126440142856325,"longitude":20.04263720643732},{"id":1106,"offerType":2,"propertyTypeEnum":5,"latitude":50.16622178264657,"longitude":20.037098474390632},{"id":1121,"offerType":2,"propertyTypeEnum":2,"latitude":50.10687477723991,"longitude":20.019202017140373}]
+                    </p>
+                </div>
+            </div>
+            <div class="title">
+                <i class="dropdown icon"></i>
+                1.2. GET NEW MARKERS GET: http://localhost:9999/marker/getNew?params
+            </div>
+            <div class="content">
+                <div class="template" id="GET_NEW_MARKERS">
+                    <h4>DESCRIPTION:</h4>
+                    <p class="descMethod">
+                        metoda podobna do <a href="#GET_MARKERS">1. GET MARKERS </a> jednak z wiekszą ilością argumentów wymaganych
+
+                        wyszukanie znaczników znajdujących się w odpowiedniej lokalizacji tj:<br>
+                        szerokość geograficzna - latitude [x1,x2]<br>
+                        długość geograficzna - longitude [y1,y2]<br>
+                        oraz nie znajdują się w
+                        szerokość geograficzna - latitude [x3,x4]<br>
+                        długość geograficzna - longitude [y3,y4]<br>
+                        Oraz poddanych odpowiedniemu filtrowaniu<br>
+                        współrzędne i warunki które muszą spełniać, zakreskowane pole z którego zwracam punkty oraz mój palec:
+                    </p>
+
+                    <p>
+                        <img src="uklad.jpg" alt="uklad" height="432" width="480"><br>
+                        prostokąt ciągłą linią- aktualny widok
+                        prostokąt przerywaną linią - poprzedni widok
+                    </p>
+
+
+                    <h4>EXAMPLE:</h4>
+
+                    <h5>get:</h5>
+                    <p class="request">http://localhost:9999/marker/getNew?x1=50&y2=20&x2=52&y1=20.03&x3=50&y4=20&x4=52&y3=20.01</p>
+
+                    <h5>repsonse:</h5>
+                    <p class = "json">
+                        [{"id":511,"offerType":1,"propertyTypeEnum":4,"latitude":50.07179471571848,"longitude":20.026989833588487},{"id":590,"offerType":2,"propertyTypeEnum":5,"latitude":50.209789625515725,"longitude":20.025781303198755}]  </p>
+                </div>
+            </div>
+            <div class="title">
+                <i class="dropdown icon"></i>
+                1.3 GET OFFER GET: http://localhost:9999/offer/get?id=
+            </div>
+            <div class="content">
+                <div class="template" id="GET_OFFER">
+                    //todo ktore zdjecie jest glowne - odbieram liste przy dodawaniu - oznaczam pierwsze jakko glowne, przy wysylaniu
+                    <h4>DESCRIPTION:</h4>
+                    <p class="descMethod">
+                        zwraca obiekt reprezentujący ofertę o podanym id LUB aliasie<br>
+                    </p>
+                    <h4>PARAMS:</h4>
+                    <ul>
+                        <li>id jest wymagane inaczej response:  400 – BAD REQUEST</li>
+                        <li>id – String – może być to numer id LUB alias</li>
+                    </ul>
+
+                    <h4>RETURN:</h4>
+
+                    <ul>
+                        <li>
+                            200 OK : json object:
+                            <ul>
+                                <li>id</li>
+                                <li>latitude</li>
+                                <li>longitude</li>
+                                <li>offerType: -> <a href="#ENUM_OFFER_TYPE">ENUM_OFFER_TYPE</a></li>
+                                <li>addDate: timestamp</li>
+                                <li>title</li>
+                                <li>description</li>
+                                <li>views</li>
+                                <li>price:
+                                    <ul>
+                                        <li>value</li>
+                                        <li>currency: -> <a href="#ENUM_CURRENCY_TYPE">ENUM_CURRENCY_TYPE</a></li>
+                                    </ul>
+                                </li>
+                                <li>person:
+                                    <ul>
+                                        <li>isAgency</li>
+                                    </ul>
+                                </li>
+                                <li>contact:
+                                    <ul>
+                                        <li>name</li>
+                                        <li>email</li>
+                                        <li>phoneNumber</li>
+                                    </ul>
+                                </li>
+                                <li>property:
+                                    <ul>
+                                        <li>propertyType: -> <a href="#ENUM_PROPERTY_TYPE">ENUM_PROPERTY_TYPE</a>
+                                        </li>
+                                        <li>buildingType: -> <a href="#ENUM_BUILDING_TYPE">ENUM_BUILDING_TYPE</a>
+                                        </li>
+                                        <li>address:
+                                            <ul>
+                                                <li>street</li>
+                                                <li>city</li>
+                                                <li>country</li>
+                                            </ul>
+                                        </li>
+                                        <li>area</li>
+                                        <li>roomCount</li>
+                                        <li>maxPerson</li>
+                                        <li>floor</li>
+                                        <li>lift - boolean</li>
+                                        <li>balcony - boolean</li>
+                                        <li>furnished - boolean</li>
+                                        <li>heating: -> <a href="#ENUM_HEATING_TYPE">ENUM_HEATING_TYPE</a></li>
+                                        <li>parkingPlace - boolean</li>
+                                        <li>pets - boolean</li>
+                                        <li>photos:[
+                                            <ul>
+                                                <li>id</li>
+                                                <li>url</li>
+                                            </ul>
+                                            ]
+                                        </li>
+                                        <li>builtYear</li>
+                                        <li>basement - boolean</li>
+                                        <li>garden - boolean</li>
+                                        <li>climatisation - boolean</li>
+                                    </ul>
+                                </li>
+                            </ul>
+
+                        </li>
+                        <li>
+                            400 BAD REQUEST: niepoprawne argumenty
+                        </li>
+                    </ul>
+
+                    <h4>EXAMPLE:</h4>
+
+                    <h5>get:</h5>
+                    <p class="request">http://localhost:9999/offer/get?id=601</p>
+                    <p class="request">http://localhost:9999/offer/get?id=super-alias</p>
+
+
+                    <h5>repsonse:</h5>
+                    <p class = "json">
+                        {"id":601,"offerType":"HIRE","pointsConsumedDate":1480860920,"title":"Tanie mieszkanie w centrum 2 pokoje","description":"Mieszkanie dla studentów, 3- 4 sooby, 2 pokoje centrum","price":{"value":500,"currency":"ZL","priceType":"MONTH"},"property":{"propertyTypeEnum":"BLOCK","address":{"street":"Przy rondzie","flatNumber":"53/8","city":"Krakow","country":"Polska"},"area":73,"roomCount":2,"maxPerson":4,"floor":3,"lift":false,"balcony":true,"furnishedType":"YES","heatingType":"ELECTRIC","parkingPlace":false,"bath":false,"shower":true,"pets":false,"photos":[{"id":1,"url":"AAA","description":"XDDD"}]},"person":{"id":1,"name":"Domino Krolino","personType":"AGENCY"},"contact":{"name":"Dominik Króliczek","email":"dominik@kroliczek.com","phoneNumber":"+48665443221"}}
+                    </p>
+                </div>
+
+            </div>
+
+            <div class="title">
+                <i class="dropdown icon"></i>
+                1.5 REPORT OFFER POST: http://localhost:9999/offer/report
+            </div>
+            <div class="content">
+                <div class="template" id="REPORT_OFFER">
+                    <h4>DESCRIPTION:</h4>
+                    <p class="descMethod">
+                        zglaszanie oferty o odpowiednim id lub aliasie jako zla <br>
+                    </p>
+                    <h4>PARAMS:</h4>
+                    body json:
+                    @NotNull
+                    @NotBlank
+                    private String offerId;
+                    @NotNull
+                    @NotBlank
+                    private String cause; // powod ktory nalezy kjazac wpisac uzytkownikowi
+
+                    <h4>RETURN:</h4>
+
+                    <ul>
+                        <li>
+                            200 OK  </li>
+                        <li>
+                            400 BAD REQUEST: niepoprawne argumenty lub oferta nie istenieje
+                        </li>
+                    </ul>
+
+                    <h4>EXAMPLE:</h4>
+
+                    <h5>get:</h5>
+                    <p class="request">http://localhost:9999/offer/get?id=601</p>
+                    <p class="request">http://localhost:9999/offer/get?id=super-alias</p>
+
+
+                    <h5>repsonse:</h5>
+                    <p class = "json">
+                        {"id":601,"offerType":"HIRE","pointsConsumedDate":1480860920,"title":"Tanie mieszkanie w centrum 2 pokoje","description":"Mieszkanie dla studentów, 3- 4 sooby, 2 pokoje centrum","price":{"value":500,"currency":"ZL","priceType":"MONTH"},"property":{"propertyTypeEnum":"BLOCK","address":{"street":"Przy rondzie","flatNumber":"53/8","city":"Krakow","country":"Polska"},"area":73,"roomCount":2,"maxPerson":4,"floor":3,"lift":false,"balcony":true,"furnishedType":"YES","heatingType":"ELECTRIC","parkingPlace":false,"bath":false,"shower":true,"pets":false,"photos":[{"id":1,"url":"AAA","description":"XDDD"}]},"person":{"id":1,"name":"Domino Krolino","personType":"AGENCY"},"contact":{"name":"Dominik Króliczek","email":"dominik@kroliczek.com","phoneNumber":"+48665443221"}}
+                    </p>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="title ui large header">
+        <i class="dropdown icon"></i>
+        2. SESJA
+    </div>
+    <div class="content">
+        <div class="accordion">
+            <div class="title">
+                <i class="dropdown icon"></i>
+                2.1 LOGIN: POST http://localhost:9999/person/session/login
+            </div>
+            <div class="content">
+                <div class="template" id="LOGIN">
+                    <h4>DESCRIPTION:</h4>
+                    <p class="descMethod">
+                        logowanie<br>
+                    </p>
+                    <h4>PARAMS:</h4>
+                    <ul>
+                        <li>Body:<br> Json {login,password}. jeszcze nie wiadomo co będzie loginem, np email, jakis login wybrany albo numer telefonu ale powinno to u ciebie działać dla każdej opcji</li>
+
+                    </ul>
+
+                    <h4>RETURN:</h4>
+                    <ul>
+                        <li>200 OK - zwraca stringa dość długiego - jest to token którego przy każdym autoryzowanym zapytaniu oczekuje w nagłówku zapytania o nazwie 'x-auth-token'</li>
+                        <li>400 bad request - jezeli json nie zawiera tych dwóch pól</li>
+                        <li> 403 forbidden - niepoprawne dane logowania</li>
+                    </ul>
+
+                </div>
+            </div>
+            <div class="title">
+                <i class="dropdown icon"></i>
+                2.2 LOGOUT: POST http://localhost:9999/person/session/logout
+            </div>
+            <div class="content">
+                <div class="template" id="LOGOUT">
+                    <h4>DESCRIPTION:</h4>
+                    <p class="descMethod">
+                        wylogowywanie<br>
+                    </p>
+                    <h4>HEADERS:</h4>
+                    'X-Auth-Token': token otrzymany przy logowaniu
+
+                    <h4>PARAMS:</h4>
+                    <ul>
+                        nic -
+                    </ul>
+
+                    <h4>RETURN:</h4>
+                    <ul>
+                        <li> 200 OK - zwraca stringa dość długiego - jest to token którego przy każdym autoryzowanym zapytaniu oczekuje w nagłówku zapytania o nazwie 'x-auth-token'</li>
+                        <li> 403 forbidden - niepoprawny token</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="title ui large header">
+        <i class="dropdown icon"></i>
+        3. PANEL UZYTKOWNIKA
+    </div>
+    <div class="content">
+        <div class="accordion">
+            <div class="title">
+                <i class="dropdown icon"></i>
+                3.1 MY_OFFERS: GET http://localhost:9999/person/offer/getMyOffers
+            </div>
+            <div class="content">
+                <div class="template" id="MY_OFFERS">
+                    <h4>DESCRIPTION:</h4>
+                    <p class="descMethod">
+                        pobranie listy ofert uzytkownika<br>
+                    </p>
+
+                    <h4>RETURN:</h4>
+                    <ul>
+                        <li>200 OK - lista ofert gdzie każda składa się z:
+                            <ul>
+                                <li>
+                                    ?
+                                </li>
+                            </ul>
+                        </li>
+                        <li> 403 forbidden - niepoprawny token</li>
+                    </ul>
+
+                </div>
+            </div>
+            <div class="title">
+                <i class="dropdown icon"></i>
+                3.2 ADD_OFFER: POST http://localhost:9999/person/offer/add<
+            </div>
+            <div class="content">
+                <div class="template" id="ADD_OFFER">
+                    <h4>DESCRIPTION:</h4>
+                    <p class="descMethod">
+                        dodawanie oferty<br>
+                    </p>
+                    <h4>HEADERS:</h4>
+                    'X-Auth-Token': token otrzymany przy logowaniu
+
+                    <h4>PARAMS:</h4>
+                    <ul>
+                        body json: <br>
+                       <pre>
+    @NotNull
+    @NotBlank
+    @JsonProperty(value = "tytul")
+    private String title;
+
+    @NotNull
+    @JsonProperty(value = "rodzajT")
+    private OfferType offerType;
+
+    @NotNull
+    @JsonProperty(value = "rodzajM")
+    private PropertyType propertyType;
+
+    @NotNull
+    @JsonProperty(value = "rodzajB")
+    private BuildingType buildingType;
+
+    @NotNull
+    @JsonProperty(value = "cena")
+    private Integer priceValue;
+
+    @NotNull
+    @JsonProperty(value = "waluta")
+    private CurrencyType priceCurrencyType;
+
+    @NotNull
+    @JsonProperty(value = "xx")
+    private Double latitude;
+
+    @NotNull
+    @JsonProperty(value = "yy")
+    private Double longitude;
+
+    @NotBlank
+    @NotNull
+    @JsonProperty(value = "ulica")
+    private String addressStreet;
+
+    @NotBlank
+    @NotNull
+    @JsonProperty(value = "miasto")
+    private String addressCity;
+
+    @NotBlank
+    @NotNull
+    @JsonProperty(value = "kraj")
+    private String addressCountry;
+
+    @NotNull
+    @JsonProperty(value = "photos")
+    private Integer[] temporaryPhotosId;
+
+    @NotNull
+    @NotBlank
+    @JsonProperty(value = "opis")
+    private String description;
+
+    @NotNull
+    @JsonProperty(value = "glownyKontakt")
+    private Boolean isMainContact;
+
+                           <h4>Te  trzy mogą być nullami o ile isMainContact == true ale zrob lepiej tak zeby i tak sie wysylaly te dane co dostaniesz z getMyContact -tak Ci chyba bedzie najwygodniej</h4>
+
+    @JsonProperty(value = "imieKontakt")
+    private String contactName;
+
+    @JsonProperty(value = "emailKontakt")
+    private String contactEmail;
+
+                           <h4>nie wiem czy tel ma byc obowiazkowy w koncu czy nie :(( nie jest </h4>
+    @JsonProperty(value = "telKontakt")
+    private String contactPhoneNumber;
+
+                           <h4>Te  trzy mogą być nullami czyli moze ich nie byc ale mogą byc puste </h4>
+    private boolean autoExtend; // default false
+    private Integer propertyMaxPerson;
+    private Integer propertyMinPerson;
+    private HeatingType propertyHeatingType;
+    private Integer propertyFloor;
+    private Boolean propertyHasBalcony;
+    private Integer propertyArea;
+    private Integer propertyRoomCount;
+    private Integer propertyBuiltYear;
+    private Boolean propertyIsFurnished;
+    private Boolean propertyHasLift;
+    private Boolean propertyHasBasement;
+    private Boolean propertyHasParking;
+    private Boolean propertyAllowPets;
+    private Boolean propertyHasGarden;
+    private Boolean propertyHasClima;
+    private Boolean propertyAllowSmoking;
+                       </pre>
+                    </ul>
+
+                    <h4>RETURN:</h4>
+                    <ul>
+                        <li> 200 OK - dodana oferta</li>
+                        <li>400 BAD REQUEST - oferta nie została dodana - zwrócę komunikat dlaczego wystąpił problem co będziesz musiał jakoś obsłużyć</li>
+                        <li> 403 forbidden - niepoprawny token</li>
+                    </ul>
+
+                </div>
+            </div>
+            <div class="title">
+                <i class="dropdown icon"></i>
+                3.3 EDIT_OFFER: POST http://localhost:9999/person/offer/edit?offerId=
+            </div>
+            <div class="content">
+                <div class="template" id="EDIT_OFFER">
+                    <h4>DESCRIPTION:</h4>
+                    <p class="descMethod">
+                        dodawanie oferty<br>
+                    </p>
+                    <h4>HEADERS:</h4>
+                    'X-Auth-Token': token otrzymany przy logowaniu
+
+                    <h4>PARAMS:</h4>
+                    <ul>
+                        <li>offerId - id oferty</li>
+                        <li>body: cała oferta - to co zostało zmienione - zmienione a co stare to stare hehe ja poliglota<br>
+                            ?
+                        </li>
+                    </ul>
+
+                    <h4>RETURN:</h4>
+                    <ul>
+                        <li> 200 OK - oferta została zaktualizowana, jest gicik</li>
+                        <li> 400 BAD REQUEST - oferta nie została zaktualizowana - zwrócę komunikat dlaczego wystąpił problem co będziesz musiał jakoś obsłużyć</li>
+                        <li> 403 FORBIDDEN - niepoprawny token</li>
+                    </ul>
+
+                    dominiku nie zapomnij sprawdzić czy dany uzytkownik ma prawo zedytowac tą oferte bo jak jakis haker sie znajdzie to to shakuje XDD
+                </div>
+            </div>
+
+            <div class="title">
+                <i class="dropdown icon"></i>
+                3.4 REMOVE_OFFER: POST http://localhost:9999/person/offer/remove?offerId=
+            </div>
+            <div class="content">
+                <div class="template" id="REMOVE_OFFER">
+                    <h4>DESCRIPTION:</h4>
+                    <p class="descMethod">
+                        usuwanie oferty<br>
+                    </p>
+                    <h4>HEADERS:</h4>
+                    'X-Auth-Token': token otrzymany przy logowaniu
+
+                    <h4>PARAMS:</h4>
+                    <ul>
+                        <li>offerId - id oferty</li>
+                    </ul>
+
+                    <h4>RETURN:</h4>
+                    <ul>
+                        <li> 200 OK - oferta została usunieta, jest gicik</li>
+                        <li> 400 BAD REQUEST - oferta nie została usunieta - zwrócę komunikat dlaczego wystąpił problem co będziesz musiał jakoś obsłużyć</li>
+                        <li> 403 FORBIDDEN - niepoprawny token</li>
+                    </ul>
+
+                    dominiku nie zapomnij sprawdzić czy dany uzytkownik ma prawo zedytowac tą oferte bo jak jakis haker sie znajdzie to to shakuje XDD
+                    co robimy z usunieta oferta, archiwizujemy? jak? flaga? czy tabelka
+                </div>
+            </div>
+
+            <div class="title">
+                <i class="dropdown icon"></i>
+                3.5 GET_MY_USER: GET http://localhost:9999/person/getMyUser
+            </div>
+            <div class="content">
+                <div class="template" id="GET_USER">
+                    <h4>DESCRIPTION:</h4>
+                    <p class="descMethod">
+                        jak sama nazwa wskazuje pobierasz se usera xd<br>
+                    </p>
+                    <h4>HEADERS:</h4>
+                    'X-Auth-Token': token otrzymany przy logowaniu
+
+
+                    <h4>RETURN:</h4>
+                    <ul>
+                        <li> 200 OK - body: <br>
+                            {"name":"Domino Krolino","contact":{"name":"Dominik","email":"firmowy@mail.com","phoneNumber":"888 888 888"}}
+                        </li>
+                        <li> 403 FORBIDDEN - niepoprawny token</li>
+                    </ul>
+
+                </div>
+            </div>
+
+
+            <div class="title">
+                <i class="dropdown icon"></i>
+                3.6 GET_MY_CONTACT: GET http://localhost:9999/person/getMyContact
+            </div>
+            <div class="content">
+                <div class="template" id="GET_CONTACT">
+                    <h4>DESCRIPTION:</h4>
+                    <p class="descMethod">
+                        jak sama nazwa wskazuje pobierasz se kontakt xd<br>
+                    </p>
+                    <h4>HEADERS:</h4>
+                    'X-Auth-Token': token otrzymany przy logowaniu
+
+
+                    <h4>RETURN:</h4>
+                    <ul>
+                        <li> 200 OK - body: <br>
+                            {
+                            "name": "Dominik",
+                            "email": "firmowy@mail.com",
+                            "phoneNumber": "888 888 888"
+                            }
+                        </li>
+                        <li> 400 BAD REQUEST - oferta nie została usunieta - zwrócę komunikat dlaczego wystąpił problem co będziesz musiał jakoś obsłużyć</li>
+                        <li> 403 FORBIDDEN - niepoprawny token</li>
+                    </ul>
+
+                </div>
+            </div>
+
+            <div class="title">
+                <i class="dropdown icon"></i>
+                3.7 RE_SEND_ACTIVATE_EMAIL: POST http://localhost:9999/register/reSendActivateMail
+            </div>
+            <div class="content">
+                <div class="template" id="RE_SEND_ACTIVATE_EMAIL">
+                    <h4>DESCRIPTION:</h4>
+                    <p class="descMethod">
+                       Ponowne stworzenie tokena aktywacyjnego oraz wyslanie emaila
+                    </p>
+                    <h4>HEADERS:</h4>
+                    'X-Auth-Token': token otrzymany przy logowaniu
+
+                    <h4>RETURN:</h4>
+                    <ul>
+                        <li> 200 OK  <br>
+                        </li>
+                        <li> 400 - niepoprawne dane</li>
+                    </ul>
+
+                </div>
+            </div>
+
+            <div class="title">
+                <i class="dropdown icon"></i>
+                3.8 CHANGE_PASSWORD: POST http://localhost:9999/person/changePassword
+            </div>
+            <div class="content">
+                <div class="template" id="CHANGE_PASSWORD">
+                    <h4>DESCRIPTION:</h4>
+                    <p class="descMethod">
+                        Zmiana hasła
+                    </p>
+                    <h4>HEADERS:</h4>
+                    'X-Auth-Token': token otrzymany przy logowaniu
+
+                    <h4>PARAMS:</h4>
+
+                    body json:
+                    @NotNull
+                    @NotBlank
+                    private String oldPassword;
+                    @NotNull
+                    @NotBlank
+                    private String newPassword;
+
+                    <h4>RETURN:</h4>
+                    <ul>
+                        <li> 200 OK  <br>
+                        </li>
+                        <li> 400 - niepoprawny json </li>
+                        <li> 403 - niepoprawne stare hasło</li>
+                    </ul>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="title ui large header">
+        <i class="dropdown icon"></i>
+        4.  REJESTRACJA ORAZ ODZYSKIWANIE HASŁA
+    </div>
+    <div class="content">
+        <div class="accordion">
+
+            <div class="title">
+                <i class="dropdown icon"></i>
+                4.1 REGISTER: POST http://localhost:9999/register
+            </div>
+            <div class="content">
+                <div class="template" id="REGISTER">
+                    <h4>DESCRIPTION:</h4>
+                    <p class="descMethod">
+                        Rejestracja, w przypadku pozytywnej rejestracji na email wysyłana jest wiadomosć z linkiem aktywujacym email:<br>
+                        <br>
+                        który kilent musi obsłużyć i wykonać metodę 4.2 ACTIVATE_EMAIL
+                    </p>
+                    <h4>ARGS</h4>
+
+                    Body: json:
+                    <ul>
+                            <li>@NotNull<br>
+                                @NotBlank<br>
+                                String email;</li>
+                            <li>@NotNull<br>
+                                @NotBlank<br>
+                                String password;</li>
+                            <li>@NotNull<br>
+                                @NotBlank<br>
+                                String name;</li>
+                            <li>@Nullable<br>
+                                String phone;</li>
+                            <li>@NotNull<br>
+                                @NotBlank<br>
+                                Boolean isAgency;</li>
+                    </ul>
+                    <h4>RETURN:</h4>
+                    <ul>
+                        <li> 200 OK  <br>
+                        </li>
+                        <li> 400 + MSG - niepoprawne dane
+                        <ul>
+                            <li>DUPLICATE_EMAIL</li>
+                        </ul>
+                        </li>
+                    </ul>
+
+                </div>
+            </div>
+
+            <div class="title">
+                <i class="dropdown icon"></i>
+                4.2 ACTIVATE_EMAIL: POST http://localhost:9999/register/activateMail
+            </div>
+            <div class="content">
+                <div class="template" id="ACTIVATE_EMAIL">
+                    <h4>DESCRIPTION:</h4>
+                    <p class="descMethod">
+                        Aktywacja emaila użytkownika. Dodaje punkty na jego konto oraz ustawia jako aktywne.
+                    </p>
+                    <h4>ARGS</h4>
+
+                    Body: json:
+                    <ul>
+                        <li>@NotNull<br>
+                            @NotBlank<br>
+                            String token;</li>
+                        <li>@NotNull<br>
+                            @NotBlank<br>
+                            Long u;</li>
+                    </ul>
+                    <h4>RETURN:</h4>
+                    <ul>
+                        <li> 200 OK  <br>
+                        </li>
+                        <li> 400 - niepoprawne dane</li>
+                    </ul>
+
+                </div>
+            </div>
+
+
+            <div class="title">
+                <i class="dropdown icon"></i>
+                4.3 FORGOTTEN_PASSWORD: POST http://localhost:9999/forgottenPassword
+            </div>
+            <div class="content">
+                <div class="template" id="FORGOTTEN_PASSWORD">
+                    <h4>DESCRIPTION:</h4>
+                    <p class="descMethod">
+                        Zapomniałem hasła, jezeli istenieje konto z takim emailem wysyła wiadomość w której znajduje się link do udzyskiwania hasła:<br>
+                        http://164.132.57.18/flatmap/forgoten.php?token=0f31ea1ad5c14ff48fd22da01573a5d4&u=3<br>
+                        który klient musi przetworzyć a następnie wykonać metodę 4.4 CHANGE_PASSWORD<br><br>
+                        oraz link do anulowania odzyskiwania:<br>
+                        http://164.132.57.18/flatmap/forgoten_cancel.php?token=0f31ea1ad5c14ff48fd22da01573a5d4&u=3<br>
+                        który klient musi przetworzyć a następnie wykonać metodę 4.5 CHANGE_PASSWORD_CANCEL<br><br>
+
+                    </p>
+                    <h4>ARGS</h4>
+
+                    Body: json {"email":"chuj@o2.pl"}
+
+                    <h4>RETURN:</h4>
+                    <ul>
+                        <li> 200 OK - body: <br>
+                        </li>
+                        <li> 400 - niepoprawne dane</li>
+                    </ul>
+
+                </div>
+            </div>
+
+            <div class="title">
+                <i class="dropdown icon"></i>
+                4.4 CHANGE_FORGOTTEN_PASSWORD: POST http://localhost:9999/forgottenPassword/changePassword
+            </div>
+            <div class="content">
+                <div class="template" id="CHANGE_FORGOTTEN_PASSWORD">
+                    <h4>DESCRIPTION:</h4>
+                    <p class="descMethod">
+                        Zmiana hasła po kliknięciu zapomniałem hasła<br>
+                    </p>
+                    <h4>ARGS</h4>
+
+                    Body: json {"requestId":"3", "token":"0f31ea1ad5c14ff48fd22da01573a5d4", "password":"nowehaslo"}
+
+                    <h4>RETURN:</h4>
+                    <ul>
+                        <li> 200 OK  <br>
+                        </li>
+                        <li> 400 - niepoprawne dane</li>
+                    </ul>
+
+                </div>
+            </div>
+
+            <div class="title">
+                <i class="dropdown icon"></i>
+                4.5 CHANGE_FORGOTTEN_PASSWORD_CANCEL: POST http://localhost:9999/forgottenPassword/cancel
+            </div>
+            <div class="content">
+                <div class="template" id="CHANGE_PASSWORD_CANCEL">
+                    <h4>DESCRIPTION:</h4>
+                    <p class="descMethod">
+                        Anulowanie zmiany hasła<br>
+                    </p>
+                    <h4>ARGS</h4>
+
+                    Body: json:
+                    <ul>
+                        <li>@NotNull<br>
+                            private Long requestId;</li>
+                        <li>@NotNull<br>
+                            @NotBlank<br>
+                            private String token;</li>
+                    </ul>
+
+                    <h4>RETURN:</h4>
+                    <ul>
+                        <li> 200 OK  <br>
+                        </li>
+                        <li> 400 - niepoprawne dane</li>
+                    </ul>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="title ui large header">
+        <i class="dropdown icon"></i>
+        0. TYPY DANYCH
+    </div>
+    <div class="content">
+        <div class="accordion">
+            <div class="title">
+                <i class="dropdown icon"></i>
+                0.1 ENUM_OFFER_TYPE
+            </div>
+            <div class="content">
+                <div class="template" id="ENUM_OFFER_TYPE">
+                    <ol start="0">
+                        <li>HIRE</li>
+                        <li>SELL</li>
+                        <li>VISIT</li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="title">
+                <i class="dropdown icon"></i>
+                0.2 ENUM_CURRENCY_TYPE
+            </div>
+            <div class="content">
+                <div class="template" id="ENUM_CURRENCY_TYPE">
+                    <ol start="0">
+                        <li>zł</li>
+                        <li>eur</li>
+                        <li>usd</li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="title">
+                <i class="dropdown icon"></i>
+                0.3 ENUM_PROPERTY_TYPE
+            </div>
+            <div class="content">
+                <div class="template" id="ENUM_PROPERTY_TYPE">
+                    <ol start="0">
+                        <li>HOUSE</li>
+                        <li value="50">FLAT</li>
+                        <li value="100">ROOM</li>
+                        <li value="150">PARCEL</li>
+                        <li value="200">GARAGE</li>
+                        <li value="250">LOCAL</li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="title">
+                <i class="dropdown icon"></i>
+                0.4 ENUM_BUILDING_TYPE
+            </div>
+            <div class="content">
+                <div class="template" id="ENUM_BUILDING_TYPE">
+                    <ol start="0">
+                        <li>HOUSE_DETACHED</li>
+                        <li>HOUSE_SEMI_DETACHED</li>
+                        <li>HOUSE_TERRACED</li>
+                        <li>HOUSE_SUMMER</li>
+                        <br>
+                        <li value="50">FLAT_BLOCK</li>
+                        <li>FLAT_TENEMENT</li>
+                        <br>
+                        <li value="100">ROOM_BLOCK</li>
+                        <li>ROOM_TENEMENT</li>
+                        <br>
+                        <li value="150">PARCEL_BUILDING</li>
+                        <li>PARCEL_AGRICULTURAL</li>
+                        <li>PARCEL_SUMMER</li>
+                        <br>
+                        <li value="200">GARAGE_DETACHED</li>
+                        <li>GARAGE_PARKINGPLACE</li>
+                        <li>GARAGE_PARKING</li>
+                        <br>
+                        <li value="250">LOCAL</li>
+                        <li>LOCAL_SHOP</li>
+                        <li>LOCAL_OFFICE</li>
+                        <li>LOCAL_STOREHOUSE</li>
+                        <li>LOCAL_HALL</li>
+                        <li>LOCAL_OTHER</li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="title">
+                <i class="dropdown icon"></i>
+                0.5 ENUM_HEATING_TYPE
+            </div>
+            <div class="content">
+                <div class="template" id="ENUM_HEATING_TYPE">
+                    <ol start="0">
+                        <li>GAS</li>
+                        <li>ELECTRIC</li>
+                        <li>CENTRAL</li>
+                        <li>OTHER</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+</body>
+</html>

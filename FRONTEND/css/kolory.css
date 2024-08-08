@@ -1,0 +1,58 @@
+/*#tabki{*/
+   /*margin-top: 50px;*/
+/*}*/
+
+#tabki .item.active{
+    border-top: #6EAB4C 3px solid;
+    color: #6EAB4C;
+}
+
+#tabki .item:not(.active){
+    background-color: #F9F9F9;
+    border-left: #d9d9d9 solid;
+    border-top: #d9d9d9 solid;
+    border-width: 1px;
+}
+#tabki .item:not(.active):hover{
+    color: #6EAB4C;
+}
+
+
+#tabki .item.active ~ .item:not(.active){
+    border-left: none;
+    border-right: #d9d9d9 solid;
+    border-top: #d9d9d9 solid;
+    border-width: 1px;
+}
+/*#tabki i{*/
+    /*color: #013d00;*/
+/*}*/
+
+/*#PASEK .element.segment{*/
+    /*!*background-color: #DEF3CB;*!*/
+    /*color: #025b00;*/
+/*}*/
+
+/*!*#PASEK > div{*!*/
+    /*!*-webkit-box-shadow: 0 0 2px 2px #F2FAEB;*!*/
+    /*!*-moz-box-shadow: 0 0 2px 2px #F2FAEB;*!*/
+    /*!*box-shadow: 0 0 2px 2px #F2FAEB;*!*/
+/*!*}*!*/
+
+
+.ui.header{
+    color: #022200;
+}
+
+.glowne_zdjecie_div_back, .miniaturka_div_back {
+    background: #edf2ee;
+}
+/*.ui.dropdown, .ui.selection.dropdown, .wyborKryteriaMultiple{*/
+    /*background-color: #F8FCF3 !important;*/
+/*}*/
+
+
+/*input , .basic.label{*/
+    /*background-color: #F8FCF3 !important;*/
+/*}*/
+

@@ -1,0 +1,6 @@
+<input type="text" [(ngModel)] = "login" (focus)="onFocus()" id="login" name="login"><br>
+<input type="password" [(ngModel)] = "password" (focus)="onFocus()" id="password" name ="password"><br>
+<div *ngIf="error">
+  {{error}}
+</div><br>
+<button (click)="onLoginSubmit()">login</button>

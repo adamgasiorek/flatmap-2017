@@ -1,0 +1,119 @@
+body {
+    overflow:hidden;
+}
+
+#PASEK{
+    height: 40px;
+    position: absolute;
+    z-index: 2;
+    width: auto;
+    margin-top: 5px;
+    margin-left: 10px;
+
+
+}
+
+#PASEK > div {
+    height: 98vh;
+    width: 400px;
+}
+
+
+#PASEK .segment.element{
+    overflow-y: hidden;
+    overflow-x: hidden;
+}
+
+ /* ROZWIJAJ / SCHOWANE*/
+#ROZWIN_KLIK2{
+    background-color: white;
+    width: 30px;
+    height: 63px;
+    top: 5px;
+    left:410px; /* */
+    position: absolute;
+    z-index: 1005;
+    border: 2px solid #bcbcb9;
+    border-radius: 5px;
+}
+
+
+#tabki{
+    width: 100%;
+    height: 50px;
+    cursor: pointer;
+}
+
+.element{
+    height: 91.5vh;
+    width: 400px;
+    /*top: -15px;*/
+    overflow-y: auto;
+    position: relative;
+}
+
+#LADOWANIE_PRZEGLADANIA{
+    height: 100%;
+    width: 100%;
+    padding-top: 50%;
+    padding-left: 40%;
+    background-color: white;
+    position: absolute;
+    top:0;
+    left:0;
+    z-index: 50;
+}
+#LADOWANIE_MOICH_DODANYCH{
+    margin-top: 40%;
+    height: 60%;
+    width: 100%;
+    padding-top: 50%;
+    padding-left: 40%;
+    background-color: white;
+    position: absolute;
+    top:0;
+    left:0;
+    z-index: 50;
+}
+
+#LOGOO{
+    position: absolute;
+    z-index: 10;
+    right: 15px;
+    top:10px;
+    width: 150px;
+    cursor: pointer;
+}
+
+
+@media (max-width: 765px) {
+    .element {
+        height: 93vh;
+        width: 100%;
+
+
+    }
+
+    #PASEK{
+        height: 40px;
+        position: absolute;
+        z-index: 60;
+        margin: 0 0 0 0;
+    }
+    #PASEK > div{
+        width: 100vw;
+    }
+
+
+
+}
+
+
+#legenda .row .column {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+
+

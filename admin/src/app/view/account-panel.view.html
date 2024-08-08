@@ -1,0 +1,11 @@
+<div *ngIf="user">
+  <h4>Witaj {{user.name}}</h4>
+</div>
+<div *ngIf="!user">pobieranie danych</div>
+
+<br>
+<a class="account-menu" href="" (click)="navigateOfferApproval()">do zatwierdzenia</a>
+<a class="account-menu" href="" (click)="navigateUsers()">użytkownicy</a>
+<a class="account-menu" href="" (click)="navigateReports()">zgłoszenia</a>
+<a class="account-menu" href="" (click)="navigateAccountSettings()">konto</a>
+<a class="account-menu" href="" (click)="logout()">wyloguj</a>
